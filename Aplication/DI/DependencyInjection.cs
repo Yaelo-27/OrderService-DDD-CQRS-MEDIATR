@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Aplication.DI
@@ -7,8 +8,13 @@ namespace Aplication.DI
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             // Register MediatR handlers from the current assembly.
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(ApplicationAssemblyReference.Assembly));
+            services.AddMediatR(config =>
+            {
+                config.RegisterServicesFromAssemblyContaining<ApplicationAssemblyReference>();
+            });
             
+            // Register FluentValidation validatos from the current assembly.
+            services.AddValidatorsFromAssemblyContaining<ApplicationAssemblyReference>();
             return services;
         }
     }
