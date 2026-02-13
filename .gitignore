@@ -487,3 +487,7 @@ $RECYCLE.BIN/
 ./Application/bin/
 ./Domain/obj/
 ./Domain/bin/
+./Api/obj/
+./Api/bin/
+./Api/appsettings.Development.json
+./Api/appsettings.json
