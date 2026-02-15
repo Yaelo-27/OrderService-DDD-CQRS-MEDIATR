@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using Domain.Primitives.Domain;
 using Domain.ValueObjects;
 
@@ -20,5 +21,6 @@ namespace Domain.Orders
        public OrderStatus Status { get; private set; }
        public Contact ShippingContact { get; private set; }
        public Address ShippingAddress { get; private set; }
+       public decimal TotalAmount => _items.Sum(i => i.Quantity * i.UnitPrice);
     }
 }

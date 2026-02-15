@@ -1,4 +1,5 @@
 using Domain.Orders;
+using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aplication.data

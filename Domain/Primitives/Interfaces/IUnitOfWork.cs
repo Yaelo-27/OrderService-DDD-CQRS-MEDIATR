@@ -4,6 +4,6 @@ namespace Domain.Primitives.Domain.Interaces
     // Gaining atomicity and consistency when performing multiple operations that should either all succeed or all fail together.
    public interface IUnitOfWork
     {
-        Task SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
