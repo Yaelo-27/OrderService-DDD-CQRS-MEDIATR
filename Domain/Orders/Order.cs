@@ -6,11 +6,12 @@ namespace Domain.Orders
     public sealed class Order : AggregateRoot
     {
        private readonly List<OrderItem> _items = new();
-       public Order(OrderId id, Contact shippingContact, Address shippingAddress)
+       public Order(OrderId id, Contact shippingContact, Address shippingAddress, IEnumerable<OrderItem> items)
        {
            Id = id;
            ShippingContact = shippingContact;
            ShippingAddress = shippingAddress;
+           _items = items?.ToList() ?? []; // Ensure that the items list is initialized to an empty list if null is passed, preventing potential null reference exceptions when accessing the order items.
            Status = OrderStatus.Pending; // Set the initial status of the order to Pending when it is created, indicating that the order is awaiting processing.
        }
        private Order() {} //Ef Core requires a parameterless constructor for materialization, but we make it private to prevent direct instantiation without using the factory method, ensuring that all Order instances are created through the Create method which can enforce validation rules.
