@@ -2,7 +2,6 @@ using Aplication.data;
 using Domain.Orders;
 using Domain.Primitives.Domain;
 using Domain.Primitives.Domain.Interaces;
-using Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

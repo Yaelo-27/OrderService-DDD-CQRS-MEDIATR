@@ -483,6 +483,7 @@ $RECYCLE.BIN/
 
 ./Infrastructure/obj/
 ./Infrastructure/bin/
+./Infrastructure/Persistence/Migrations
 ./Application/obj/
 ./Application/bin/
 ./Domain/obj/
