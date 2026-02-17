@@ -1,4 +1,5 @@
 using Domain.Orders;
+using Domain.Product;
 using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -38,7 +39,7 @@ namespace Infrastructure.Persistence.Configuration
             builder.OwnsMany(o => o.Items, item =>
             {
                 item.HasKey("OrderId", "ProductId");
-                item.Property(i => i.ProductId)
+                item.Property(i => i.ProductId).HasConversion(id => id.Value, value => new ProductId(value))
                     .HasColumnName("ProductId");
                 item.Property(i => i.ProductName)
                     .HasColumnName("ProductName")

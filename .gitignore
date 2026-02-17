@@ -483,7 +483,6 @@ $RECYCLE.BIN/
 
 ./Infrastructure/obj/
 ./Infrastructure/bin/
-./Infrastructure/Persistence/Migrations
 ./Application/obj/
 ./Application/bin/
 ./Domain/obj/
@@ -492,3 +491,4 @@ $RECYCLE.BIN/
 ./Api/bin/
 Api/appsettings.Development.json
 Api/appsettings.json
+Infrastructure/Persistence/Migrations
