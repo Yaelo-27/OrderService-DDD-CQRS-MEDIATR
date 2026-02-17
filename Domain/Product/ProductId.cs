@@ -1,4 +1,4 @@
 namespace Domain.Product
 {
-    public sealed record ProductId(Guid Value);
+    public sealed record ProductId(int Value);
 }

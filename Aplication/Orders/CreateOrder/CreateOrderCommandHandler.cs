@@ -2,6 +2,7 @@ using MediatR;
 using Domain.Orders;
 using Domain.Primitives.Domain.Interaces;
 using Domain.ValueObjects;
+using Domain.Product;
 
 namespace Aplication.Orders
 {
@@ -36,7 +37,7 @@ namespace Aplication.Orders
                 throw new ArgumentException("Invalid address information.");
             }
 
-            List<OrderItem?> orderItems = request.Items.Select(item => OrderItem.Create(item.ProductId, item.ProductName, item.Quantity, item.UnitPrice)).Where(item => item != null).ToList();
+            List<OrderItem?> orderItems = request.Items.Select(item => OrderItem.Create(new ProductId(item.ProductId), item.ProductName, item.Quantity, item.UnitPrice)).Where(item => item != null).ToList();
             Order order = new(
                 new OrderId(Guid.NewGuid()),
                 contact,
