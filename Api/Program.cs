@@ -2,6 +2,8 @@ using Api.DI;
 using Api.Extensions;
 using Aplication.DI;
 using Infrastructure.DI;
+using MediatR;
+using Aplication.Orders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,28 +25,29 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+// Orders endpoints
+app.MapPost("/orders", async (CreateOrderCommand command, IMediator mediator, HttpResponse response) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var orderId = await mediator.Send(command);
+    response.StatusCode = StatusCodes.Status201Created;
+    response.Headers.Location = $"/orders/{orderId.Value}";
+    await response.WriteAsync(orderId.Value.ToString());
+    return Results.Empty;
 })
-.WithName("GetWeatherForecast");
+.WithName("CreateOrder");
+
+app.MapGet("/orders/{id:guid}", async (IMediator mediator, Guid id, HttpResponse response) =>
+{
+    var order = await mediator.Send(new GetOrderQuery(id));
+    if (order is null) return Results.NotFound();
+    var json = System.Text.Json.JsonSerializer.Serialize(order);
+    response.ContentType = "application/json";
+    await response.WriteAsync(json);
+    return Results.Empty;
+})
+.WithName("GetOrder");
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+// Expose Program for integration testing
+public partial class Program { }

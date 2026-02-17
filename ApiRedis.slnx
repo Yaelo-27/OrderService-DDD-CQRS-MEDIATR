@@ -3,4 +3,5 @@
   <Project Path="Aplication/Aplication.csproj" />
   <Project Path="Domain/Domain.csproj" />
   <Project Path="Infrastructure/Infrastructure.csproj" />
+  <Project Path="Api.IntegrationTests/Api.IntegrationTests.csproj" />
 </Solution>

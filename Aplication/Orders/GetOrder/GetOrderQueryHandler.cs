@@ -32,7 +32,7 @@ namespace Aplication.Orders
                 Status = order.Status.ToString(),
                 Items = [.. order.Items.Select(item => new OrderItemDto
                 {
-                    ProductId = item.ProductId,
+                    ProductId = item.ProductId.Value,
                     ProductName = item.ProductName,
                     Quantity = item.Quantity,
                     UnitPrice = item.UnitPrice
