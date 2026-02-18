@@ -82,8 +82,8 @@ ApiRedis/
 
 3. **Crear migraciones y aplicar (opcional):**
    ```powershell
-   dotnet ef migrations add InitialCreate --project Infrastructure --startup-project Api
-   dotnet ef database update --project Infrastructure --startup-project Api
+   dotnet ef migrations add InitialCreate -p Infrastructure -s Api -o ./Infrastructure/Persistence/Migrations
+   dotnet ef database update -p Infrastructure -s Api
    ```
 
 4. **Ejecutar la API:**
