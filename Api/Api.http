@@ -1,6 +1,31 @@
 @Api_HostAddress = http://localhost:5150
 
-GET {{Api_HostAddress}}/weatherforecast/
+### Create order (POST)
+POST {{Api_HostAddress}}/orders
+Content-Type: application/json
+{
+	"ShippingContactName": "John doe",
+	"ShippingContactEmail": "jdoe@example.com",
+	"ShippingContactPhoneNumber": "+34123456789",
+	"ShippingAddressStreet": "1235 Test St",
+	"ShippingAddressCity": "Testville",
+	"ShippingAddressState": "TS",
+	"ShippingAddressPostalCode": "12345",
+	"ShippingAddressCountry": "Testland",
+	"Items": [
+		{
+			"ProductId": 12345,
+			"ProductName": "Test Product john doe",
+			"Quantity": 10,
+			"UnitPrice": 9.99
+		}
+	]
+}
+
+###
+
+### Get order (GET)
+GET {{Api_HostAddress}}/orders/{{orderId}}
 Accept: application/json
 
 ###

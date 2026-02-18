@@ -1,0 +1,27 @@
+services:
+  db:
+    container_name: sql-server25
+    image: mcr.microsoft.com/mssql/server:2025-RC0-ubuntu-24.04
+    environment:
+      - MSSQL_SA_PASSWORD=YourStrong!Passw0rd
+      - MSSQL_PID=Developer
+      - ACCEPT_EULA=Y
+    volumes:
+      - sql-vol:/var/opt/mssql
+      - ./in-case-of-no-exist-script-db.sql:/usr/src/app/in-case-of-no-exist-script-db.sql
+    command: /bin/bash -c "sqlservr & sleep 20 && /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"YourStrong!Passw0rd\" -i /usr/src/app/in-case-of-no-exist-script-db.sql && wait"
+  api:
+    container_name: apiredis-api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    ports:
+      - "5150:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=db,1433;Database=OrderDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true;
+    depends_on:
+      - db
+volumes:
+  sql-vol:
+      external: true
