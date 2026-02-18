@@ -8,7 +8,7 @@ public partial record Address
         State = state;
         PostalCode = postalCode;
         Country = country;
-    } //Ef Core requires a parameterless constructor for materialization, but we make it private to prevent direct instantiation without using the factory method, ensuring that all Address instances are created through the Create method which can enforce validation rules.
+    }
     public static Address? Create(string street, string city, string state, string postalCode, string country)
     {
         if (string.IsNullOrWhiteSpace(street) || string.IsNullOrWhiteSpace(city) || string.IsNullOrWhiteSpace(state) || string.IsNullOrWhiteSpace(postalCode) || string.IsNullOrWhiteSpace(country))
