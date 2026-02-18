@@ -3,10 +3,9 @@
 ### Create order (POST)
 POST {{Api_HostAddress}}/orders
 Content-Type: application/json
-
 {
-	"ShippingContactName": "Test User",
-	"ShippingContactEmail": "test@example.com",
+	"ShippingContactName": "John doe",
+	"ShippingContactEmail": "jdoe@example.com",
 	"ShippingContactPhoneNumber": "+34123456789",
 	"ShippingAddressStreet": "1235 Test St",
 	"ShippingAddressCity": "Testville",
@@ -16,8 +15,8 @@ Content-Type: application/json
 	"Items": [
 		{
 			"ProductId": 12345,
-			"ProductName": "Test Product",
-			"Quantity": 1,
+			"ProductName": "Test Product john doe",
+			"Quantity": 10,
 			"UnitPrice": 9.99
 		}
 	]

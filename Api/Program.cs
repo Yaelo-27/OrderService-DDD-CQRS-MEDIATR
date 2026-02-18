@@ -40,6 +40,7 @@ app.MapGet("/orders/{id:guid}", async (IMediator mediator, Guid id, HttpResponse
 {
     var order = await mediator.Send(new GetOrderQuery(id));
     if (order is null) return Results.NotFound();
+    
     var json = System.Text.Json.JsonSerializer.Serialize(order);
     response.ContentType = "application/json";
     await response.WriteAsync(json);
