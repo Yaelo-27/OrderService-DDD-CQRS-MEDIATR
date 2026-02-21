@@ -4,6 +4,7 @@ using Aplication.DI;
 using Infrastructure.DI;
 using MediatR;
 using Aplication.Orders;
+using Aplication.dto;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,22 +30,19 @@ app.UseHttpsRedirection();
 app.MapPost("/orders", async (CreateOrderCommand command, IMediator mediator, HttpResponse response) =>
 {
     var orderId = await mediator.Send(command);
-    response.StatusCode = StatusCodes.Status201Created;
-    response.Headers.Location = $"/orders/{orderId.Value}";
-    await response.WriteAsync(orderId.Value.ToString());
-    return Results.Empty;
+    if(orderId is null) return Results.BadRequest($"The order hasn't been placed, an error ocurred");
+
+    return Results.Created<Guid>($"/orders/{orderId.Value}",orderId.Value);
 })
 .WithName("CreateOrder");
 
-app.MapGet("/orders/{id:guid}", async (IMediator mediator, Guid id, HttpResponse response) =>
+app.MapGet("/orders/{id}", async (IMediator mediator, string id, HttpResponse response) =>
 {
-    var order = await mediator.Send(new GetOrderQuery(id));
-    if (order is null) return Results.NotFound();
-    
-    var json = System.Text.Json.JsonSerializer.Serialize(order);
-    response.ContentType = "application/json";
-    await response.WriteAsync(json);
-    return Results.Empty;
+    if(string.IsNullOrEmpty(id)) return Results.NotFound("there is not order id given");
+    var order = await mediator.Send(new GetOrderQuery(new Guid(id)));
+    if (order is null) return Results.NotFound("There are not orders place with the id given");
+
+    return Results.Ok<OrderDto>(order);
 })
 .WithName("GetOrder");
 
