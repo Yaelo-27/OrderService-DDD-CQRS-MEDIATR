@@ -23,6 +23,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MigrateDatabase(); // Apply pending migrations at development startup
 }
+app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 
