@@ -8,8 +8,11 @@ services:
       - ACCEPT_EULA=Y
     volumes:
       - sql-vol:/var/opt/mssql
-      - ./in-case-of-no-exist-script-db.sql:/usr/src/app/in-case-of-no-exist-script-db.sql
-    command: /bin/bash -c "sqlservr & sleep 20 && /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"YourStrong!Passw0rd\" -i /usr/src/app/in-case-of-no-exist-script-db.sql && wait"
+  redis:
+    container_name: redis-local
+    image: redis:latest
+    depends_on:
+      - db
   api:
     container_name: apiredis-api
     build:
@@ -20,8 +23,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Server=db,1433;Database=OrderDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true;
+      - ConnectionStrings_RedisConnection=redis
     depends_on:
       - db
+      - redis
 volumes:
   sql-vol:
       external: true
