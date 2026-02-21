@@ -1,4 +1,7 @@
+using Aplication.Common.Mapper;
+using Aplication.Orders.Behaviors;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Aplication.DI
@@ -12,9 +15,13 @@ namespace Aplication.DI
             {
                 config.RegisterServicesFromAssemblyContaining<ApplicationAssemblyReference>();
             });
-            
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
             // Register FluentValidation validatos from the current assembly.
             services.AddValidatorsFromAssemblyContaining<ApplicationAssemblyReference>();
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<OrderMappingProfile>();
+            });
             return services;
         }
     }
